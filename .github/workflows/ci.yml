@@ -1,0 +1,52 @@
+name: CI-CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
+  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}   # למשל: 654291821407.dkr.ecr.us-east-1.amazonaws.com
+  ECR_REPO: ${{ secrets.ECR_REPO }}           # למשל: project-1
+  IMAGE_TAG: ${{ github.sha }}
+  NAMESPACE: project1
+  HELM_RELEASE: demo
+  CHART_PATH: kubernetes/helm/flask-web-project-1
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }} # אופציונלי (אם משתמשים ב-OIDC). אחרת הגדרי AWS_ACCESS_KEY_ID/SECRET בקונסול.
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build & Push image
+        run: |
+          docker build -t $ECR_REPO:$IMAGE_TAG ./app
+          docker tag $ECR_REPO:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
+        shell: bash
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "$AWS_REGION"
+
+      - name: Helm upgrade --install
+        run: |
+          helm upgrade --install "$HELM_RELEASE" "$CHART_PATH" -n "$NAMESPACE" --create-namespace \
+            --set image.repository="$ECR_REGISTRY/$ECR_REPO" \
+            --set image.tag="$IMAGE_TAG"
