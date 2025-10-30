@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project 1 · דף נוסף</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: #0f172a;
+            color: #e5e7eb;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+        }
+
+        .wrap {
+            width: min(720px, 94vw);
+            background: #0b1220;
+            border: 1px solid #1f2937;
+            border-radius: 18px;
+            padding: 28px;
+        }
+
+        h2 {
+            margin: 0 0 10px;
+            font-size: clamp(24px, 4.5vw, 32px);
+        }
+
+        p {
+            color: #94a3b8;
+            margin: 0 0 18px;
+        }
+
+        a.btn {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: #22c55e;
+            color: #0b0f1a;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        a.btn:hover {
+            background: #16a34a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <h2>דף המשך</h2>
+        <p>שלום! הגעת לדף השני. כאן תוכלי לשים תוכן נוסף, טפסים, לינקים וכו׳.</p>
+        <a class="btn" href="{{ url_for('hello') }}">← חזרה לדף הבית</a>
+    </div>
+</body>
+
+</html>

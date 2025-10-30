@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project 1 · דף בית</title>
+    <style>
+        :root {
+            --bg1: #0f172a;
+            /* slate-900 */
+            --bg2: #1e293b;
+            /* slate-800 */
+            --card: #111827;
+            /* gray-900 */
+            --text: #e5e7eb;
+            /* gray-200 */
+            --muted: #94a3b8;
+            /* slate-400 */
+            --brand: #22c55e;
+            /* green-500 */
+            --brand-hover: #16a34a;
+            /* green-600 */
+            --ring: rgba(34, 197, 94, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+            background: radial-gradient(1200px 800px at 80% -10%, var(--bg2), transparent),
+                radial-gradient(800px 600px at -20% 110%, #0b1220, transparent),
+                linear-gradient(180deg, var(--bg1), #0b1220 60%);
+            color: var(--text);
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: min(720px, 96vw);
+            background: linear-gradient(180deg, #0d1326, #0a0f1f);
+            border: 1px solid #1f2937;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            padding: 28px;
+            transform: translateY(0);
+            animation: fadeIn 600ms ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: clamp(28px, 5vw, 40px);
+            line-height: 1.1;
+            letter-spacing: 0.2px;
+        }
+
+        p {
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: clamp(16px, 2.4vw, 18px);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            appearance: none;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #0b0f1a;
+            background: var(--brand);
+            box-shadow: 0 8px 18px var(--ring);
+            transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--brand-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px var(--ring);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid #243244;
+            box-shadow: none;
+        }
+
+        .sep {
+            height: 1px;
+            width: 100%;
+            background: #1f2937;
+            margin: 20px 0;
+        }
+
+        .list {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .bullet {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--brand);
+            box-shadow: 0 0 0 3px var(--ring);
+        }
+    </style>
+</head>
+
+<body>
+    <main class="card">
+        <h1>ברוכה הבאה 🎉</h1>
+        <p>זהו דף הבית של הפרויקט. הכנו עיצוב נקי, כהה ומודרני, וכפתור שמוביל לדף נוסף.</p>
+
+        <div class="sep"></div>
+
+        <div class="list">
+            <div class="bullet"><span class="dot"></span> מבנה מסודר וקליל בלי תלות חיצונית.</div>
+            <div class="bullet"><span class="dot"></span> רספונסיבי — נראה טוב גם במובייל.</div>
+            <div class="bullet"><span class="dot"></span> כפתור ניווט לדף נוסף לבדיקת הראוטינג.</div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="actions">
+            <!-- בכרום/פלאסק עדיף להשתמש ב-url_for -->
+            <a class="btn" href="{{ url_for('next_page') }}">לדף הבא →</a>
+            <a class="btn secondary" href="https://flask.palletsprojects.com/" target="_blank" rel="noopener">תיעוד
+                Flask</a>
+        </div>
+    </main>
+</body>
+
+</html>
